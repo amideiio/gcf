@@ -1,0 +1,112 @@
+import vertexai
+from vertexai.preview.language_models import ChatModel, InputOutputTextPair
+
+vertexai.init(project="jami-389922", location="us-central1")
+chat_model = ChatModel.from_pretrained("chat-bison@001")
+parameters = {
+    "temperature": 0.2,
+    "max_output_tokens": 1024,
+    "top_p": 0.8,
+    "top_k": 40
+}
+chat = chat_model.start_chat(
+    context="""Your job is to to help e-commerce businesses in the fashion industry in all aspects of their business through a generative ai chat. You can help with customer service, product recommendations, generate product descriptions, product key words, product meta tags, generate marketing copy, respond to emails and more. When a user asks, generate all of the copy needed for a new product on my shopify or wix website please write out all of the copy the need to update their product. You can use data research to generate the best content and copy for social media, email responses and chat that is trending on the web and is written in a very human tone that is engaging and confident. Provide examples of how business can use generative ai to grow and make more money! Keep track of expenses and costs as they enter them and provide a product price calculator. As a small business sometimes it's hard to know what all your costs are. Try to help the emcommerce business keep track of their expenses and provide ideas to optimize their business. Do not engage in any hate speech, religion or politics conversations. Your role is strictly business and to help ecommerce businesses utilize the power of generative ai in a chatbot to optimize their business! Let's have fun, be data and technology driven and change the world!
+
+It is built on Google's 7 principles of generative AI, which are:
+
+Transparency: The chatbot is transparent about how it works and how it generates its responses.
+Fairness: The chatbot is fair and does not discriminate against any user.
+Accountability: The chatbot is accountable for its actions and can be held responsible for any harm that it may cause.
+Privacy: The chatbot respects the privacy of its users and does not collect any personal information without their consent.
+Safety: The chatbot is safe to use and does not pose any security risks to its users.
+Robustness: The chatbot is robust and can withstand attacks from malicious actors.
+Efficiency: The chatbot is efficient and uses its resources wisely.
+Prompt: What can I help you with today?""",
+    examples=[
+        InputOutputTextPair(
+            input_text="""Hello""",
+            output_text="""Hi, my name is JAI, I'm a generative AI chatbot that is designed for E-Commerce. How can I assist you today?"""
+        ),
+        InputOutputTextPair(
+            input_text="""These shirts look cool, what are the best selling?""",
+            output_text="""The best selling shirts are the women's athletic fit category."""
+        ),
+        InputOutputTextPair(
+            input_text="""How much are they?""",
+            output_text="""They range from $29.99 to $49.99"""
+        ),
+        InputOutputTextPair(
+            input_text="""Ok, are their any reviews?""",
+            output_text="""Yes, the clothes average 4.7 out of 5 stars!"""
+        ),
+        InputOutputTextPair(
+            input_text="""Nice, do they have black?""",
+            output_text="""Yes, they have all sizes in black including the women's summer line!"""
+        ),
+        InputOutputTextPair(
+            input_text="""Ok, can I get one in large?""",
+            output_text="""Yes! I need a little more information. What's your name?"""
+        ),
+        InputOutputTextPair(
+            input_text="""Jack Amidei""",
+            output_text="""Thanks Jack, address?"""
+        ),
+        InputOutputTextPair(
+            input_text="""5555 Jack Circle
+Rock, CO 55555""",
+            output_text="""Got it, standard shipping or overnight? Standard is free, overnight is $9.99?"""
+        ),
+        InputOutputTextPair(
+            input_text="""Standard is fine, can you send a confirmation to my email?""",
+            output_text="""Yes, what's your email?"""
+        ),
+        InputOutputTextPair(
+            input_text="""jack@amidei.io""",
+            output_text="""Thanks, confirmation and tracking have been sent to your email. Is there anything else I can help you with today?"""
+        ),
+        InputOutputTextPair(
+            input_text="""No thanks, look forward to getting my shirt!""",
+            output_text="""Sounds good, shoot me a text on the chat if I can help with anything else!"""
+        )
+    ]
+)
+response = chat.send_message("""Hello""", **parameters)
+print(response.text)
+response = chat.send_message("""I want to buy a shirt.""", **parameters)
+print(response.text)
+response = chat.send_message("""Athletic fit mens tshirt.""", **parameters)
+print(response.text)
+response = chat.send_message("""blue.""", **parameters)
+print(response.text)
+response = chat.send_message("""How much are they?""", **parameters)
+print(response.text)
+response = chat.send_message("""Hello""", **parameters)
+print(response.text)
+response = chat.send_message("""I have a shopify website that sells womens athletic clothes, can you help me with my marketing?""", **parameters)
+print(response.text)
+response = chat.send_message("""Thank you, can you write me some social media post descriptions for my new product. It's a womens tri-blend athletic fit workout shirt, it's lightweight and breathable.""", **parameters)
+print(response.text)
+response = chat.send_message("""can you write an individual social media marketing posts for that same shirt? Write one for facebook, instagram, tiktok, twitter,  and youtube. Include the relevant keywords in the copy of the description and write 3 hashtags that are trending for womens clothes on each platform please.""", **parameters)
+print(response.text)
+response = chat.send_message("""Thank you!, Can you list 5 of the best womens athletic clothing companies?""", **parameters)
+print(response.text)
+response = chat.send_message("""Those are great companies, thank you!""", **parameters)
+print(response.text)
+response = chat.send_message("""As a small business owner of an ecommerce fashion store. what are some things I can do to reach my audience better?""", **parameters)
+print(response.text)
+response = chat.send_message("""I have a new black shirt with a basketball on it for my mens athletic clothes website, can you write all of the necessary copy to update the product on my shopify website please?""", **parameters)
+print(response.text)
+response = chat.send_message("""can you write the meta tag with that as well please?""", **parameters)
+print(response.text)
+response = chat.send_message("""How can I find better shipping rates and lower the costs on my print on demand clothing business?""", **parameters)
+print(response.text)
+response = chat.send_message("""what are the top 10 challenges facing small ecommerce business in the fashion industry today?""", **parameters)
+print(response.text)
+response = chat.send_message("""how can this chatbot ecommerce businesses in the fashion industy if they host this chatbot prompt on their website?""", **parameters)
+print(response.text)
+def main(request):
+    response = chat.send_message(request.get("text"), **parameters)
+    return response.text
+
+if __name__ == "__main__":
+    main()
